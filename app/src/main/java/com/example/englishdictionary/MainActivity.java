@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
         wordList = new Repository().allWords(database);
 
-        adapter = new RecyclerViewAdapter(this,wordList);
+        adapter = new RecyclerViewAdapter(this,wordList,database);
         rv.setAdapter(adapter);
 
     }
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     public void searchWord(String searchWord){
         wordList = new Repository().searchWord(database,searchWord);
-        adapter = new RecyclerViewAdapter(this,wordList);
+        adapter = new RecyclerViewAdapter(this,wordList,database);
         rv.setAdapter(adapter);
     }
 

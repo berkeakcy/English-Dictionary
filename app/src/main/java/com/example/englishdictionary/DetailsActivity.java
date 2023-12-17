@@ -39,9 +39,9 @@ public class DetailsActivity extends AppCompatActivity {
 
         other_meanings_textView.setText("");
         String other_meanings = word.getWord_other_meaning();
-        String[] degerler = other_meanings.split(",\\s*");
-        for (String deger : degerler){
-            other_meanings_textView.append(deger);
+        String[] values = other_meanings.split(",\\s*");
+        for (String value : values){
+            other_meanings_textView.append(value);
             other_meanings_textView.append("\n");
         }
     }
