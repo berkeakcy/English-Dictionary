@@ -1,5 +1,6 @@
 package com.example.englishdictionary;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
@@ -7,10 +8,16 @@ import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     private ArrayList<Word> wordList;
     private RecyclerViewAdapter adapter;
     private Database database;
+    private FloatingActionButton fab;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
         toolbar = findViewById(R.id.toolbar);
         rv = findViewById(R.id.rv);
+        fab = findViewById(R.id.floatingActionButton);
 
         toolbar.setTitle("Dictionary");
         setSupportActionBar(toolbar);
@@ -43,6 +52,14 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
         adapter = new RecyclerViewAdapter(this,wordList,database);
         rv.setAdapter(adapter);
+
+        fab.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                alertShow();
+            }
+        });
 
     }
 
@@ -58,6 +75,34 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         wordList = new Repository().searchWord(database,searchWord);
         adapter = new RecyclerViewAdapter(this,wordList,database);
         rv.setAdapter(adapter);
+    }
+
+    public void alertShow(){
+        LayoutInflater layout = LayoutInflater.from(this);
+        View design = layout.inflate(R.layout.alert_design,null);
+
+        EditText eng_editText = design.findViewById(R.id.eng_editText);
+        EditText tr_editText = design.findViewById(R.id.tr_editText);
+        EditText other_meanings_editText = design.findViewById(R.id.other_meanings_editText);
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Kelime ekle");
+        alert.setView(design);
+        alert.setPositiveButton("Ekle", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+
+        alert.setNegativeButton("İptal", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+
+        alert.create().show();
     }
 
     @Override
