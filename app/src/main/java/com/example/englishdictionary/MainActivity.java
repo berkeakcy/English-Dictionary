@@ -8,6 +8,7 @@ import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,9 +16,12 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -53,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         adapter = new RecyclerViewAdapter(this,wordList,database);
         rv.setAdapter(adapter);
 
+
         fab.setOnClickListener(new View.OnClickListener(){
 
             @Override
@@ -60,6 +65,8 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 alertShow();
             }
         });
+
+
 
     }
 
@@ -84,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         EditText eng_editText = design.findViewById(R.id.eng_editText);
         EditText tr_editText = design.findViewById(R.id.tr_editText);
         EditText other_meanings_editText = design.findViewById(R.id.other_meanings_editText);
+        TextView notice_textView = design.findViewById(R.id.notice_textView);
 
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Kelime ekle");
@@ -91,6 +99,15 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         alert.setPositiveButton("Ekle", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+
+                String word_eng = eng_editText.getText().toString().trim();
+                String word_tr = tr_editText.getText().toString().trim();
+                String word_other_meanings = other_meanings_editText.getText().toString().trim();
+
+                new Repository().addWord(database,word_eng,word_tr,word_other_meanings);
+                wordList = new Repository().allWords(database);
+                adapter = new RecyclerViewAdapter(MainActivity.this,wordList,database);
+                rv.setAdapter(adapter);
 
             }
         });

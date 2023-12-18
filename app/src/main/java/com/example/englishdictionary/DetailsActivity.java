@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 public class DetailsActivity extends AppCompatActivity {
 
     private Word word;
@@ -18,9 +20,11 @@ public class DetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_details);
 
         Toolbar toolbar2 = findViewById(R.id.detailsToolbar);
-        Button eng_textView = findViewById(R.id.eng_button);
-        TextView tr_textView = findViewById(R.id.genel_textView);
-        TextView other_meanings_textView = findViewById(R.id.yanAnlam_textView);
+        Button eng_text = findViewById(R.id.eng_button);
+        TextView tr_textView = findViewById(R.id.tr_textView);
+        TextView other_meanings_textView = findViewById(R.id.other_meanings_textView);
+        TextView genel_textView = findViewById(R.id.genel_textView);
+        TextView yan_anlam_textView = findViewById(R.id.yan_anlam_textView);
 
         toolbar2.setTitle("Dictionary");
 
@@ -33,9 +37,8 @@ public class DetailsActivity extends AppCompatActivity {
 
         word = (Word) getIntent().getSerializableExtra("word");
         System.out.println(word);
-        eng_textView.setText(word.getWord_eng());
+        eng_text.setText(word.getWord_eng());
         tr_textView.setText(word.getWord_tr());
-        //other_meanings_textView.setText(word.getWord_other_meaning());
 
         other_meanings_textView.setText("");
         String other_meanings = word.getWord_other_meaning();
@@ -43,6 +46,15 @@ public class DetailsActivity extends AppCompatActivity {
         for (String value : values){
             other_meanings_textView.append(value);
             other_meanings_textView.append("\n");
+        }
+
+        if (other_meanings == ""){
+            yan_anlam_textView.setVisibility(View.GONE);
+            System.out.println("null");
+        }
+        else{
+            yan_anlam_textView.setVisibility(View.VISIBLE);
+            System.out.println("doly");
         }
     }
 
